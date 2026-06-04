@@ -102,7 +102,7 @@ export default function Costs() {
         <button className="btn btn-primary" onClick={openCreate}><Plus size={16} />Maliyet Ekle</button>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'wrap' }}>
         <label className="form-label" style={{ margin: 0, whiteSpace: 'nowrap' }}>Ay filtrele:</label>
         <input className="form-control" type="month" value={monthFilter} onChange={e => setMonthFilter(e.target.value)} style={{ width: 180 }} />
         {monthFilter && <button className="btn btn-secondary btn-sm" onClick={() => setMonthFilter('')}>Tümü</button>}
@@ -123,39 +123,69 @@ export default function Costs() {
         ))}
       </div>
 
-      <div className="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Başlık</th>
-              <th>Kategori</th>
-              <th>Tarih</th>
-              <th>Tutar</th>
-              <th>Notlar</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredMonth.length === 0 && (
-              <tr><td colSpan={6} style={{ textAlign: 'center', padding: 40, color: 'var(--text2)' }}>Bu dönemde maliyet yok</td></tr>
-            )}
-            {filteredMonth.map(c => (
-              <tr key={c.id}>
-                <td><strong>{c.title}</strong></td>
-                <td><span className={`badge ${catColors[c.category] || 'badge-gray'}`}>{c.category}</span></td>
-                <td>{format(new Date(c.date + 'T00:00:00'), 'd MMM yyyy', { locale: tr })}</td>
-                <td><strong style={{ color: 'var(--danger)' }}>₺{Number(c.amount).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</strong></td>
-                <td style={{ fontSize: 13, color: 'var(--text2)' }}>{c.notes || '—'}</td>
-                <td>
-                  <div style={{ display: 'flex', gap: 6 }}>
-                    <button className="btn-icon" onClick={() => openEdit(c)}><Pencil size={14} /></button>
-                    <button className="btn-icon" onClick={() => handleDelete(c.id)} style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
-                  </div>
-                </td>
+      <div className="table-desktop">
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Başlık</th>
+                <th>Kategori</th>
+                <th>Tarih</th>
+                <th>Tutar</th>
+                <th>Notlar</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredMonth.length === 0 && (
+                <tr><td colSpan={6} style={{ textAlign: 'center', padding: 40, color: 'var(--text2)' }}>Bu dönemde maliyet yok</td></tr>
+              )}
+              {filteredMonth.map(c => (
+                <tr key={c.id}>
+                  <td><strong>{c.title}</strong></td>
+                  <td><span className={`badge ${catColors[c.category] || 'badge-gray'}`}>{c.category}</span></td>
+                  <td>{format(new Date(c.date + 'T00:00:00'), 'd MMM yyyy', { locale: tr })}</td>
+                  <td><strong style={{ color: 'var(--danger)' }}>₺{Number(c.amount).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</strong></td>
+                  <td style={{ fontSize: 13, color: 'var(--text2)' }}>{c.notes || '—'}</td>
+                  <td>
+                    <div style={{ display: 'flex', gap: 6 }}>
+                      <button className="btn-icon" onClick={() => openEdit(c)}><Pencil size={14} /></button>
+                      <button className="btn-icon" onClick={() => handleDelete(c.id)} style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Mobil kart listesi */}
+      <div className="cards-mobile">
+        {filteredMonth.length === 0 && (
+          <div className="card empty"><p>Bu dönemde maliyet yok</p></div>
+        )}
+        {filteredMonth.map(c => (
+          <div key={c.id} className="order-card">
+            <div className="order-card-row">
+              <strong style={{ fontSize: 14 }}>{c.title}</strong>
+              <span className={`badge ${catColors[c.category] || 'badge-gray'}`}>{c.category}</span>
+            </div>
+            <div style={{ fontSize: 13, color: 'var(--text2)' }}>
+              {format(new Date(c.date + 'T00:00:00'), 'd MMM yyyy', { locale: tr })}
+              {c.notes ? ` · ${c.notes}` : ''}
+            </div>
+            <div className="order-card-row">
+              <strong style={{ color: 'var(--danger)', fontSize: 16 }}>
+                ₺{Number(c.amount).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
+              </strong>
+              <div style={{ display: 'flex', gap: 6 }}>
+                <button className="btn-icon" onClick={() => openEdit(c)}><Pencil size={14} /></button>
+                <button className="btn-icon" onClick={() => handleDelete(c.id)} style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {showModal && (

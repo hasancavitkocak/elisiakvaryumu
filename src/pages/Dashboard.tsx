@@ -94,35 +94,66 @@ export default function Dashboard() {
             <p>Yaklaşan teslimat yok</p>
           </div>
         ) : (
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Müşteri</th>
-                  <th>Ürün</th>
-                  <th>Adet</th>
-                  <th>Teslim Tarihi</th>
-                  <th>Tutar</th>
-                  <th>Durum</th>
-                </tr>
-              </thead>
-              <tbody>
-                {upcoming.map(o => (
-                  <tr key={o.id}>
-                    <td><strong>{o.customer_name}</strong><br /><span style={{ fontSize: 12, color: 'var(--text2)' }}>{o.phone}</span></td>
-                    <td>{o.product_name}</td>
-                    <td>{o.order_items && o.order_items.length > 0
+          <>
+            {/* Masaüstü tablo */}
+            <div className="dashboard-table">
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Müşteri</th>
+                      <th>Ürün</th>
+                      <th>Adet</th>
+                      <th>Teslim Tarihi</th>
+                      <th>Tutar</th>
+                      <th>Durum</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {upcoming.map(o => (
+                      <tr key={o.id}>
+                        <td><strong>{o.customer_name}</strong><br /><span style={{ fontSize: 12, color: 'var(--text2)' }}>{o.phone}</span></td>
+                        <td>{o.product_name}</td>
+                        <td>{o.order_items && o.order_items.length > 0
+                          ? o.order_items.reduce((s, i) => s + Number(i.quantity), 0)
+                          : o.quantity}
+                        </td>
+                        <td>{format(new Date(o.delivery_date + 'T00:00:00'), 'd MMM yyyy', { locale: tr })}</td>
+                        <td>₺{Number(o.total_price).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</td>
+                        <td><span className={`badge ${statusBadge(o.status)}`}>{o.status}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Mobil kartlar */}
+            <div className="dashboard-cards">
+              {upcoming.map(o => (
+                <div key={o.id} className="order-card">
+                  <div className="order-card-row">
+                    <strong style={{ fontSize: 14 }}>{o.customer_name}</strong>
+                    <span className={`badge ${statusBadge(o.status)}`}>{o.status}</span>
+                  </div>
+                  {o.phone && <span style={{ fontSize: 12, color: 'var(--text2)' }}>{o.phone}</span>}
+                  <div style={{ fontSize: 13, color: 'var(--text2)' }}>
+                    {o.product_name} · {o.order_items && o.order_items.length > 0
                       ? o.order_items.reduce((s, i) => s + Number(i.quantity), 0)
-                      : o.quantity}
-                    </td>
-                    <td>{format(new Date(o.delivery_date + 'T00:00:00'), 'd MMM yyyy', { locale: tr })}</td>
-                    <td>₺{Number(o.total_price).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</td>
-                    <td><span className={`badge ${statusBadge(o.status)}`}>{o.status}</span></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                      : o.quantity} adet
+                  </div>
+                  <div className="order-card-row">
+                    <span style={{ fontSize: 13, color: 'var(--text2)' }}>
+                      {format(new Date(o.delivery_date + 'T00:00:00'), 'd MMM yyyy', { locale: tr })}
+                    </span>
+                    <span style={{ fontWeight: 700, color: 'var(--accent)' }}>
+                      ₺{Number(o.total_price).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>

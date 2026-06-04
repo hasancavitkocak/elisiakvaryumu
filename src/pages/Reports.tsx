@@ -138,7 +138,7 @@ export default function Reports() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="reports-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
         {/* Top ürünler */}
         <div className="card">
           <div style={{ fontWeight: 600, marginBottom: 16 }}>En Çok Satan Ürünler</div>

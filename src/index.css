@@ -444,32 +444,51 @@ tr:hover td { background: var(--surface2); }
   }
 
   .main { margin-left: 0; }
-  .content { padding: 16px 14px; }
+  .content { padding: 14px 12px; }
   .topbar { padding: 0 14px; }
   .hamburger { display: flex; }
 
   .form-row, .form-row-3 { grid-template-columns: 1fr; }
-  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  .modal { border-radius: 14px; }
+  .stat-value { font-size: 18px; }
+  .stat-card { padding: 14px 14px; }
+
+  .modal {
+    border-radius: 18px 18px 0 0;
+    max-height: 92vh;
+    margin-top: auto;
+  }
+  .modal-overlay { align-items: flex-end; padding: 0; }
   .modal-header { padding: 16px 18px 0; }
   .modal-body { padding: 14px 18px; }
-  .modal-footer { padding: 12px 18px 16px; }
+  .modal-footer { padding: 12px 18px 24px; }
 
   .table-desktop { display: none; }
   .cards-mobile { display: flex; flex-direction: column; gap: 10px; }
 
   .page-header h2 { font-size: 18px; }
+  .page-header { margin-bottom: 16px; }
+
+  /* Reports grid: tek sütun */
+  .reports-grid { grid-template-columns: 1fr !important; }
+
+  /* Dashboard yaklaşan tablo → kart */
+  .dashboard-table { display: none; }
+  .dashboard-cards { display: flex; flex-direction: column; gap: 10px; }
 }
 
 @media (min-width: 769px) {
   .cards-mobile { display: none; }
+  .dashboard-cards { display: none; }
 }
 
 @media (max-width: 480px) {
-  .stat-grid { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-value { font-size: 16px; }
   .search-bar { flex-direction: column; align-items: stretch; }
   .search-bar select { width: 100% !important; }
+  .content { padding: 12px 10px; }
 }
 
 /* ─── Order Form sections ─────────────────────────────── */

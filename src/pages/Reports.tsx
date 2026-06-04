@@ -53,7 +53,7 @@ export default function Reports() {
   const statusCounts = {
     'bekliyor': orders.filter(o => o.status === 'bekliyor').length,
     'hazırlanıyor': orders.filter(o => o.status === 'hazırlanıyor').length,
-    'tamamlandı': orders.filter(o => o.status === 'tamamlandı').length,
+    'hazır': orders.filter(o => o.status === 'hazır').length,
     'teslim edildi': orders.filter(o => o.status === 'teslim edildi').length,
   }
 
@@ -174,7 +174,7 @@ export default function Reports() {
               const colors: Record<string, string> = {
                 'bekliyor': '#ff9f0a',
                 'hazırlanıyor': 'var(--accent)',
-                'tamamlandı': 'var(--success)',
+                'hazır': 'var(--success)',
                 'teslim edildi': 'var(--text2)',
               }
               return (
